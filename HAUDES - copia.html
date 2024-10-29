@@ -3,15 +3,9 @@
     <Title>HAUDES</Title>
     <link rel="icon" href="Logo.ico" type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="interfaz-correo.css">
-    <link rel="stylesheet" type="text/css" href="./example/vendor/select2.css">
-    <link rel="stylesheet" type="text/css" href="./dist/select2.optgroupSelect.css">
-    
-    <script src="./example/vendor/jquery-2.1.0.js"></script>   
-    <script src="./example/vendor/jquery.mousewheel.js"></script>
-    <script src="./example/vendor/select2.js"></script>
-    <script src="./dist/select2.optgroupSelect.js"></script>
-    
-    </head>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.4.0/dist/axios.min.js"></script>
+</head>
+
 <body>
     <br><br>
     <button class="atras" onclick="location.href='Login.html'">Cerrar Sesion</button>
@@ -29,12 +23,30 @@
                                     id="lista"
                                     name="lista"
                                     style="width:95%"
-                                    theme="classic"
                                     title="Seleccione una o varias direcciones de correo"
                                     required
                                     data-placeholder="elige un correo"
                                     allowClear="True"
                                     >
+                                
+                                <!-- <optgroup label="1-A">
+                                         <option value="value1">Value N</option>
+                                         <option value="value2">yahirsias77</option>
+                                         <option value="value3">Gabrieldeleon88</option>
+                                         <option value="value4">DeLaRosa64</option>
+                                </optgroup>
+                                <optgroup label="1-B">
+                                         <option value="value5">LuisArguelles24</option>  
+                                         <option value="value6">Ramonolivares81</option>
+                                         <option value="value7">MartinMarcano55</option>
+                                         <option value="value8">YahirEmmanuel80</option>
+                                </optgroup>
+                                <optgroup label="1-C">
+                                         <option value="value9">YESC</option>
+                                         <option value="value10">JAGDL</option>
+                                         <option value="value11">LAAG</option>
+                                         <option value="value12">JLDLR</option>
+                                </optgroup> -->
                             </select>
                             
                             <img src="Lupa.png" width="20px" height="20px">
@@ -67,61 +79,24 @@
 </body>
 </html>
 
-<script type="text/javascript">
-    $(document).ready(function(){
-        const getAllEmails = require('js/requests');
-        const emails = getAllEmails();
+<script type="module">
 
-        $(function()
-         {
-            $('#lista').select2(
-            emails
-            /* {
-                    ajax:{
-                    type: 'GET',
-                    url: '/Alumnos_Regulares',
-                    dataType: 'json',
-                    delay: 250,
-                    data: function(params){
-                        return{
-                            searchTerm: params.term
-                        }
-                    },
-                    processResults: function(response){
-                        return{
-                            results: response
-                        };
-                    }
-                    
-                    cache: true
-                    
-                    success: function(response)
-                        {
-                        $.each(response,function(indice,lista){
-                               $('#lista').append("<optgroup label='"+ lista.GRUPO_ACTUAL + "'>", "<option value='" + lista.CUENTA_GOOGLE +"'>" + lista.PATERNO + + lista.MATERNO + lista.NOMBRE + "</option>", "</optgroup>")
-                               });
-                    }
-                }
-            } */);
+import { getAllEmails } from "./js/requests.js";
+
+const emails = await getAllEmails();
+populateEmailOptions(emails);
+
+function populateEmailOptions(emails) {
+        const selectElement = document.getElementById("lista");
+
+        emails.forEach(email => {
+            const option = document.createElement("option");
+            option.value = email;  // Use the actual email ID or other identifier
+            option.textContent = email;  // Set the displayed text as the email
+            selectElement.appendChild(option);
         });
-    });
-</script>
+    }
 
-<script>
-    $(function(){
-      $.fn.select2.amd.require(["optgroup-data", "optgroup-results"],
-          function (OptgroupData, OptgroupResults) {
-          $('#lista').select2({
-              dataAdapter: OptgroupData,
-              resultsAdapter: OptgroupResults,
-              allowClear: true
-          });
-      });
-  });
-    
-</script>
-
-<script>
 let filesList = [];
 const classDragOver = "drag-over";
 const fileInputMulti = document.querySelector("#multi-selector-uniq #files");
@@ -138,6 +113,7 @@ const multiSelectorUniqPreview = document.querySelector("#multi-selector-uniq #p
  * @param {Array<File>} list - List of files.
  * @return number
  */
+
 function getIndexOfFileList(name, list) {
     return list.reduce(
         (position, file, index) => (file.name === name ? index : position),
