@@ -81,9 +81,12 @@
 
 <script type="module">
 
-import { getAllEmails } from "./js/requests.js";
+import { getAllEmails, getInfo } from "./js/requests.js";
 
 const emails = await getAllEmails();
+const info = await getInfo();
+console.log(info);
+
 populateEmailOptions(emails);
 
 function populateEmailOptions(emails) {

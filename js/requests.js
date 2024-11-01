@@ -20,3 +20,12 @@ export const getAllEmails = async () => {
     }
 };
 
+export const getInfo = async () => {
+    try{
+        const response = await axios.get('http://localhost:5000/students/info');
+        return response.data;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
